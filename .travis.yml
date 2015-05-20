@@ -15,9 +15,8 @@ branches:
 # do not run expensive spec tests on PRs, only on branches
 script: "
 echo '--color\n-fp' > .rspec;
-bundle exec rake spec;
+bundle exec rspec spec/unit/provider/directory_spec.rb;
 "
-
 env:
   global:
     - FORCE_FFI_YAJL=ext
