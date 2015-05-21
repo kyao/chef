@@ -272,6 +272,7 @@ describe Chef::Client do
       def stub_for_audit
         # -- Client#run_audits
         expect(Chef::Audit::Runner).to receive(:new).and_return(audit_runner)
+        expect(Chef::Audit::Logger).to receive(:read_buffer).and_return("Audit mode output!")
         expect(audit_runner).to receive(:run).and_return(true)
       end
 
@@ -449,6 +450,7 @@ describe Chef::Client do
             let(:e) { Exception.new }
             def stub_for_audit
               expect(Chef::Audit::Runner).to receive(:new).and_return(audit_runner)
+              expect(Chef::Audit::Logger).to receive(:read_buffer).and_return("Audit mode output!")
               expect(audit_runner).to receive(:run).and_raise(e)
               expect(Chef::Application).to receive(:debug_stacktrace).with an_instance_of(Chef::Exceptions::RunFailedWrappingError)
             end
@@ -485,6 +487,7 @@ describe Chef::Client do
 
             def stub_for_audit
               expect(Chef::Audit::Runner).to_not receive(:new)
+              expect(Chef::Audit::Logger).to_not receive(:read_buffer)
             end
 
             def stub_for_converge
@@ -528,6 +531,7 @@ describe Chef::Client do
 
           def stub_for_audit
             expect(Chef::Audit::Runner).to receive(:new).and_return(audit_runner)
+            expect(Chef::Audit::Logger).to receive(:read_buffer).and_return("Audit mode output!")
             expect(Chef::Application).to receive(:debug_stacktrace).with an_instance_of(Chef::Exceptions::RunFailedWrappingError)
           end
 
@@ -563,6 +567,7 @@ describe Chef::Client do
 
         def stub_for_audit
           expect(Chef::Audit::Runner).to_not receive(:new)
+          expect(Chef::Audit::Logger).to_not receive(:read_buffer)
         end
 
         def stub_for_node_save
@@ -590,6 +595,7 @@ describe Chef::Client do
 
         def stub_for_audit
           expect(Chef::Audit::Runner).to_not receive(:new)
+          expect(Chef::Audit::Logger).to_not receive(:read_buffer)
         end
 
         it "runs successfully without enabling the audit runner" do
