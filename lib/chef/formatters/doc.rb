@@ -175,16 +175,18 @@ class Chef
         puts_line "Starting audit phase"
       end
 
-      def audit_phase_complete
+      def audit_phase_complete(audit_output)
+        puts_line audit_output
         puts_line "Auditing complete"
       end
 
-      def audit_phase_failed(error)
+      def audit_phase_failed(exception, audit_output)
+        puts_line audit_output
         puts_line ""
         puts_line "Audit phase exception:"
         indent
-        puts_line "#{error.message}"
-        error.backtrace.each do |l|
+        puts_line "#{exception.message}"
+        exception.backtrace.each do |l|
           puts_line l
         end
       end
